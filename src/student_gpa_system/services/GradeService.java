@@ -1,6 +1,6 @@
 package student_gpa_system.services;
 
-public interface Grade {
+public interface GradeService {
     int    getTotal();
     double getAverage();
     String getGrade();

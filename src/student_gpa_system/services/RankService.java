@@ -1,5 +1,5 @@
 package student_gpa_system.services;
 
-public interface Rank {
+public interface RankService {
     double getAverage();
 }
