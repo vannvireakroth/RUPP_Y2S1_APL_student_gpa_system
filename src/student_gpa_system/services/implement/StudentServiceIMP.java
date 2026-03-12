@@ -45,8 +45,8 @@ public class StudentServiceIMP implements StudentService {
         for (Students s : students) {
             System.out.printf("  %-7d %-22s %-10d %-10d %-10d %-10d %-10d %-8d %-8.1f %-6s%n",
                     s.id, s.name,
-                    s.mathScore, s.scienceScore, s.englishScore,
-                    s.historyScore, s.artsScore,
+                    s.mathScore, s.engligScore, s.programScore,
+                    s.networkScore, s.databaseScore,
                     s.getTotal(), s.getGPA(), s.getGrade());
         }
         printFooter();
@@ -63,10 +63,10 @@ public class StudentServiceIMP implements StudentService {
         System.out.println("  Leave blank and press Enter to keep current value.");
 
         s.mathScore    = readScoreOptional("  Math     (current " + s.mathScore    + "): ", s.mathScore);
-        s.scienceScore = readScoreOptional("  English  (current " + s.scienceScore + "): ", s.scienceScore);
-        s.englishScore = readScoreOptional("  Program  (current " + s.englishScore + "): ", s.englishScore);
-        s.historyScore = readScoreOptional("  Network  (current " + s.historyScore + "): ", s.historyScore);
-        s.artsScore    = readScoreOptional("  Database (current " + s.artsScore    + "): ", s.artsScore);
+        s.engligScore = readScoreOptional("  English  (current " + s.engligScore + "): ", s.engligScore);
+        s.programScore = readScoreOptional("  Program  (current " + s.programScore + "): ", s.programScore);
+        s.networkScore = readScoreOptional("  Network  (current " + s.networkScore + "): ", s.networkScore);
+        s.databaseScore = readScoreOptional("  Database (current " + s.databaseScore + "): ", s.databaseScore);
 
         System.out.printf("  ✓ Marks updated! Total: %d | Avg: %.1f | Grade: %s%n",
                 s.getTotal(), s.getGPA(), s.getGrade());
@@ -148,13 +148,46 @@ public class StudentServiceIMP implements StudentService {
             for (Students s : results) {
                 System.out.printf("  %-7d %-22s %-10d %-10d %-10d %-10d %-10d %-8d %-8.1f %-6s%n",
                         s.id, s.name,
-                        s.mathScore, s.scienceScore, s.englishScore,
-                        s.historyScore, s.artsScore,
+                        s.mathScore, s.engligScore, s.programScore,
+                        s.networkScore, s.databaseScore,
                         s.getTotal(), s.getGPA(), s.getGrade());
             }
             printFooter();
         }
     }
+
+    public void printTranscript(){
+        System.out.print("\n  Search by name or ID: ");
+        String query = scanner.nextLine().trim().toLowerCase();
+
+        List<Students> results = new ArrayList<>();
+        for (Students s : students) {
+            if (s.name.toLowerCase().contains(query) || String.valueOf(s.id).equals(query))
+                results.add(s);
+        }
+
+        if (results.isEmpty()) {
+            System.out.println("  ✗ No students found matching \"" + query + "\".");
+            return;
+        }
+
+        for (Students s : results) {
+            System.out.println("  " + "─".repeat(60));
+            System.out.println("                      STUDENT TRANSCRIPT");
+            System.out.println("  " + "─".repeat(60));
+            System.out.printf("  ID: %-8d  Name: %-30s GPA: %-9.1f%n", s.id, s.name, s.getGPA());
+            System.out.println("  " + "─".repeat(60));
+            System.out.printf(" %-8s  %-22s  %-8s  %-6s  %-8s%n",
+                    "Code", "Subject", "Credit", "Score", "GPA");
+            System.out.println("  " + "─".repeat(60));
+            System.out.printf(" %-8s  %-22s  %-8d  %-6d  %-8s%n", "SUB-001", "Math",     3, s.mathScore,    subjectGPA(s.mathScore));
+            System.out.printf(" %-8s  %-22s  %-8d  %-6d  %-8s%n", "SUB-002", "English",  3, s.engligScore, subjectGPA(s.engligScore));
+            System.out.printf(" %-8s  %-22s  %-8d  %-6d  %-8s%n", "SUB-003", "Program",  3, s.programScore, subjectGPA(s.programScore));
+            System.out.printf(" %-8s  %-22s  %-8d  %-6d  %-8s%n", "SUB-004", "Network",  3, s.networkScore, subjectGPA(s.networkScore));
+            System.out.printf(" %-8s  %-22s  %-8d  %-6d  %-8s%n", "SUB-005", "Database", 3, s.databaseScore,    subjectGPA(s.databaseScore));
+            System.out.println("  " + "─".repeat(60));
+        }
+    };
 
     // ── Seed Sample Data ──────────────────────────────────────────────────────
     public void seedData() {
@@ -212,5 +245,14 @@ public class StudentServiceIMP implements StudentService {
 
     private void printFooter() {
         System.out.println("  " + "─".repeat(105));
+    }
+
+    private String subjectGPA(int score) {
+        if (score >= 90) return "4.0 (A)";
+        if (score >= 80) return "3.5 (B+)";
+        if (score >= 70) return "3.0 (B)";
+        if (score >= 60) return "2.0 (C)";
+        if (score >= 50) return "1.0 (D)";
+        return                  "0.0 (F)";
     }
 }

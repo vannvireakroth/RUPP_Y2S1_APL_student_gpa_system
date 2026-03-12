@@ -17,7 +17,7 @@ public class Student_GPA_System {
             printMenu();
             choice = readInt("  Choose an option: ");
             handleChoice(choice);
-        } while (choice != 7);
+        } while (choice != 8);
     }
 
     private static void handleChoice(int choice) {
@@ -28,8 +28,9 @@ public class Student_GPA_System {
             case 4 -> studentController.DeleteStudent();
             case 5 -> studentController.ShowRankings();
             case 6 -> studentController.SearchStudent();
-            case 7 -> System.out.println("\n  Goodbye!\n");
-            default -> System.out.println("Invalid option. Please choose 1 - 7.");
+            case 7 -> studentController.PrintTranscript();
+            case 8 -> System.out.println("\n  Goodbye!\n");
+            default -> System.out.println("Invalid option. Please choose 1 - 8");
         }
     }
 
@@ -41,7 +42,8 @@ public class Student_GPA_System {
         System.out.println("4. Delete Student");
         System.out.println("5. Show Rankings");
         System.out.println("6. Search Student");
-        System.out.println("7. Exit");
+        System.out.println("7. Print Transcript");
+        System.out.println("8. Exit");
     }
 
     private static int readInt(String prompt) {

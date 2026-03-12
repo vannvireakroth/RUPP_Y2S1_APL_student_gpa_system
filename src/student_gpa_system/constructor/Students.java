@@ -9,15 +9,15 @@ public class Students extends RankServiceIMP {
     public int    id;
     public String name;
 
-    public Students(String name, int math, int science,
-                   int english, int history, int arts) {
+    public Students(String name, int math, int english,
+                   int program, int network, int database) {
         this.id           = nextId++;
         this.name         = name;
         this.mathScore    = math;
-        this.scienceScore = science;
-        this.englishScore = english;
-        this.historyScore = history;
-        this.artsScore    = arts;
+        this.engligScore = english;
+        this.programScore = program;
+        this.networkScore = network;
+        this.databaseScore = database;
     }
 
     @Override

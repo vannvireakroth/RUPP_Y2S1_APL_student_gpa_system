@@ -5,15 +5,15 @@ import student_gpa_system.services.GradeService;
 public class GradeServiceIMP implements GradeService {
 
     protected int mathScore;
-    protected int scienceScore;
-    protected int englishScore;
-    protected int historyScore;
-    protected int artsScore;
+    protected int engligScore;
+    protected int programScore;
+    protected int networkScore;
+    protected int databaseScore;
 
     @Override
     public int getTotal() {
-        return mathScore + scienceScore + englishScore
-                + historyScore + artsScore;
+        return mathScore + engligScore + programScore
+                + networkScore + databaseScore;
     }
 
     @Override

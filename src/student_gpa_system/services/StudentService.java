@@ -9,4 +9,5 @@ public interface StudentService {
     void deleteStudent();
     void showRankings();
     void searchStudent();
+    void printTranscript();
 }

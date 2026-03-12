@@ -1,5 +1,6 @@
 package student_gpa_system.controller;
 
+import student_gpa_system.constructor.Students;
 import student_gpa_system.services.implement.StudentServiceIMP;
 
 import java.util.Scanner;
@@ -38,4 +39,7 @@ public class StudentController {
         studentServiceIMP.searchStudent();
     }
 
+    public void PrintTranscript(){
+        studentServiceIMP.printTranscript();
+    }
 }
