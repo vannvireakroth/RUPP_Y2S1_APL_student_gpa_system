@@ -20,22 +20,25 @@ public class StudentServiceIMP implements StudentService {
         String name = scanner.nextLine().trim();
         if (name.isEmpty()) { System.out.println("  ✗ Name cannot be empty."); return; }
 
-        int math    = readScore("  Math score    (0-100): ");
-        int science = readScore("  Science score (0-100): ");
-        int english = readScore("  English score (0-100): ");
-        int history = readScore("  History score (0-100): ");
-        int arts    = readScore("  Arts score    (0-100): ");
+        int math    = readScore("  Math score     (0-100): ");
+        int science = readScore("  English score  (0-100): ");
+        int english = readScore("  Program score  (0-100): ");
+        int history = readScore("  Network score  (0-100): ");
+        int arts    = readScore("  Database score (0-100): ");
 
         Students s = new Students(name, math, science, english, history, arts);
         students.add(s);
         System.out.printf("  ✓ Student added! ID: %d | Total: %d | Avg: %.1f | Grade: %s%n",
-                s.id, s.getTotal(), s.getAverage(), s.getGrade());
+                s.id, s.getTotal(), s.getGPA(), s.getGrade());
     }
 
     // ── 2. View All Students ──────────────────────────────────────────────────
     @Override
     public void viewAllStudents() {
-        if (students.isEmpty()) { System.out.println("\n  ✗ No students on record."); return; }
+        if (students.isEmpty()) {
+            System.out.println("\n  ✗ No students on record.");
+            return;
+        }
 
         System.out.println("\n  ── All Students ──");
         printHeader();
@@ -44,7 +47,7 @@ public class StudentServiceIMP implements StudentService {
                     s.id, s.name,
                     s.mathScore, s.scienceScore, s.englishScore,
                     s.historyScore, s.artsScore,
-                    s.getTotal(), s.getAverage(), s.getGrade());
+                    s.getTotal(), s.getGPA(), s.getGrade());
         }
         printFooter();
     }
@@ -59,14 +62,14 @@ public class StudentServiceIMP implements StudentService {
         System.out.println("  Found: " + s.name);
         System.out.println("  Leave blank and press Enter to keep current value.");
 
-        s.mathScore    = readScoreOptional("  Math    (current " + s.mathScore    + "): ", s.mathScore);
-        s.scienceScore = readScoreOptional("  Science (current " + s.scienceScore + "): ", s.scienceScore);
-        s.englishScore = readScoreOptional("  English (current " + s.englishScore + "): ", s.englishScore);
-        s.historyScore = readScoreOptional("  History (current " + s.historyScore + "): ", s.historyScore);
-        s.artsScore    = readScoreOptional("  Arts    (current " + s.artsScore    + "): ", s.artsScore);
+        s.mathScore    = readScoreOptional("  Math     (current " + s.mathScore    + "): ", s.mathScore);
+        s.scienceScore = readScoreOptional("  English  (current " + s.scienceScore + "): ", s.scienceScore);
+        s.englishScore = readScoreOptional("  Program  (current " + s.englishScore + "): ", s.englishScore);
+        s.historyScore = readScoreOptional("  Network  (current " + s.historyScore + "): ", s.historyScore);
+        s.artsScore    = readScoreOptional("  Database (current " + s.artsScore    + "): ", s.artsScore);
 
         System.out.printf("  ✓ Marks updated! Total: %d | Avg: %.1f | Grade: %s%n",
-                s.getTotal(), s.getAverage(), s.getGrade());
+                s.getTotal(), s.getGPA(), s.getGrade());
     }
 
     // ── 4. Delete Student ─────────────────────────────────────────────────────
@@ -92,14 +95,13 @@ public class StudentServiceIMP implements StudentService {
         if (students.isEmpty()) { System.out.println("\n  ✗ No students to rank."); return; }
 
         List<Students> ranked = new ArrayList<>(students);
-        ranked.sort((a, b) -> Double.compare(b.getAverage(), a.getAverage()));
+        ranked.sort((a, b) -> Double.compare(b.getGPA(), a.getGPA()));
 
-        System.out.println("\n  ╔══════════════════════════════════════════════════════════════╗");
-        System.out.println("  ║                     STUDENT RANKINGS                        ║");
-        System.out.println("  ╠══════════════════════════════════════════════════════════════╣");
-        System.out.printf("  ║  %-4s  %-18s  %-5s  %-6s  %-6s  %-4s  ║%n",
-                "Rank", "Name", "Total", "Avg", "Grade", "Medal");
-        System.out.println("  ╠══════════════════════════════════════════════════════════════╣");
+        System.out.println("\n        STUDENT RANKINGS");
+        System.out.println("  " + "─".repeat(50));
+        System.out.printf("  %-4s  %-18s  %-6s  %-6s  %-6s%n",
+                "Rank", "Name", "Total", "GPA", "Grade");
+        System.out.println("  " + "─".repeat(50));
 
         int    rank        = 1;
         double prevAvg     = -1;
@@ -107,22 +109,22 @@ public class StudentServiceIMP implements StudentService {
 
         for (int i = 0; i < ranked.size(); i++) {
             Students s = ranked.get(i);
-            if (i == 0 || s.getAverage() != prevAvg) displayRank = rank;
-            String medal = displayRank == 1 ? "🥇" : displayRank == 2 ? "🥈" : displayRank == 3 ? "🥉" : " -";
-            System.out.printf("  ║  %-4d  %-18s  %-5d  %-6.1f  %-6s  %-4s  ║%n",
-                    displayRank, s.name, s.getTotal(), s.getAverage(), s.getGrade(), medal);
-            prevAvg = s.getAverage();
+            if (i == 0 || s.getGPA() != prevAvg) displayRank = rank;
+
+            System.out.printf("  %-4d  %-18s  %-6d  %-6.1f  %-6s%n",
+                    displayRank, s.name, s.getTotal(), s.getGPA(), s.getGrade());
+
+            prevAvg = s.getGPA();
             rank++;
         }
 
-        double classAvg = ranked.stream().mapToDouble(Students::getAverage).average().orElse(0);
-        double highest  = ranked.get(0).getAverage();
-        double lowest   = ranked.get(ranked.size() - 1).getAverage();
-
-        System.out.println("  ╠══════════════════════════════════════════════════════════════╣");
-        System.out.printf("  ║  Class Avg: %-6.1f  Highest: %-6.1f  Lowest: %-6.1f      ║%n",
+        System.out.println("  " + "─".repeat(50));
+        double classAvg = ranked.stream().mapToDouble(Students::getGPA).average().orElse(0);
+        double highest  = ranked.get(0).getGPA();
+        double lowest   = ranked.get(ranked.size() - 1).getGPA();
+        System.out.printf("  Class Avg: %-6.1f  Highest: %-6.1f  Lowest: %-6.1f%n",
                 classAvg, highest, lowest);
-        System.out.println("  ╚══════════════════════════════════════════════════════════════╝");
+        System.out.println("  " + "─".repeat(50));
     }
 
     // ── 6. Search Student ─────────────────────────────────────────────────────
@@ -148,7 +150,7 @@ public class StudentServiceIMP implements StudentService {
                         s.id, s.name,
                         s.mathScore, s.scienceScore, s.englishScore,
                         s.historyScore, s.artsScore,
-                        s.getTotal(), s.getAverage(), s.getGrade());
+                        s.getTotal(), s.getGPA(), s.getGrade());
             }
             printFooter();
         }
@@ -204,7 +206,7 @@ public class StudentServiceIMP implements StudentService {
     private void printHeader() {
         System.out.println("  " + "─".repeat(105));
         System.out.printf("  %-7s %-22s %-10s %-10s %-10s %-10s %-10s %-8s %-8s %-6s%n",
-                "ID", "Name", "Math", "Science", "English", "History", "Arts", "Total", "Average", "Grade");
+                "ID", "Name", "Math", "English", "Program", "Network", "Database", "Total", "GPA", "Grade");
         System.out.println("  " + "─".repeat(105));
     }
 

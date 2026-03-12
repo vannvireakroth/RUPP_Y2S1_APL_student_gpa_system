@@ -22,14 +22,14 @@ public class Student_GPA_System {
 
     private static void handleChoice(int choice) {
         switch (choice) {
-            case 1 -> studentController.handleAddStudent();
-            case 2 -> studentController.handleViewAllStudents();
-            case 3 -> studentController.handleUpdateMarks();
-            case 4 -> studentController.handleDeleteStudent();
-            case 5 -> studentController.handleShowRankings();
-            case 6 -> studentController.handleSearchStudent();
+            case 1 -> studentController.AddStudent();
+            case 2 -> studentController.ViewAllStudents();
+            case 3 -> studentController.UpdateMarks();
+            case 4 -> studentController.DeleteStudent();
+            case 5 -> studentController.ShowRankings();
+            case 6 -> studentController.SearchStudent();
             case 7 -> System.out.println("\n  Goodbye!\n");
-            default -> System.out.println("  ✗ Invalid option. Please choose 0–6.");
+            default -> System.out.println("Invalid option. Please choose 1 - 7.");
         }
     }
 

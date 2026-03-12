@@ -9,32 +9,32 @@ public class StudentController {
     Scanner scanner = new Scanner(System.in);
 
     // ── 1. Add Student ────────────────────────────────────────────────────────
-    public void handleAddStudent() {
+    public void AddStudent() {
         studentServiceIMP.addStudent();
     }
 
     // ── 2. View All Students ──────────────────────────────────────────────────
-    public void handleViewAllStudents() {
+    public void ViewAllStudents() {
         studentServiceIMP.viewAllStudents();
     }
 
     // ── 3. Update Marks ───────────────────────────────────────────────────────
-    public void handleUpdateMarks() {
+    public void UpdateMarks() {
         studentServiceIMP.updateMarks();
     }
 
     // ── 4. Delete Student ─────────────────────────────────────────────────────
-    public void handleDeleteStudent() {
+    public void DeleteStudent() {
         studentServiceIMP.deleteStudent();
     }
 
     // ── 5. Show Rankings ──────────────────────────────────────────────────────
-    public void handleShowRankings() {
+    public void ShowRankings() {
         studentServiceIMP.showRankings();
     }
 
     // ── 6. Search Student ─────────────────────────────────────────────────────
-    public void handleSearchStudent() {
+    public void SearchStudent() {
         studentServiceIMP.searchStudent();
     }
 
