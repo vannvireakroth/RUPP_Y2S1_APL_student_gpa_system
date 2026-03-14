@@ -29,7 +29,7 @@ public class StudentServiceIMP implements StudentService {
         Students s = new Students(name, math, science, english, history, arts);
         students.add(s);
         System.out.printf("  ✓ Student added! ID: %d | Total: %d | Avg: %.1f | Grade: %s%n",
-                s.id, s.getTotal(), s.getGPA(), s.getGrade());
+                s.id, s.getTotal(), s.getAVG(), s.getGrade());
     }
 
     // ── 2. View All Students ──────────────────────────────────────────────────
@@ -47,7 +47,7 @@ public class StudentServiceIMP implements StudentService {
                     s.id, s.name,
                     s.mathScore, s.engligScore, s.programScore,
                     s.networkScore, s.databaseScore,
-                    s.getTotal(), s.getGPA(), s.getGrade());
+                    s.getTotal(), s.getAVG(), s.getGrade());
         }
         printFooter();
     }
@@ -69,7 +69,7 @@ public class StudentServiceIMP implements StudentService {
         s.databaseScore = readScoreOptional("  Database (current " + s.databaseScore + "): ", s.databaseScore);
 
         System.out.printf("  ✓ Marks updated! Total: %d | Avg: %.1f | Grade: %s%n",
-                s.getTotal(), s.getGPA(), s.getGrade());
+                s.getTotal(), s.getAVG(), s.getGrade());
     }
 
     // ── 4. Delete Student ─────────────────────────────────────────────────────
@@ -95,12 +95,12 @@ public class StudentServiceIMP implements StudentService {
         if (students.isEmpty()) { System.out.println("\n  ✗ No students to rank."); return; }
 
         List<Students> ranked = new ArrayList<>(students);
-        ranked.sort((a, b) -> Double.compare(b.getGPA(), a.getGPA()));
+        ranked.sort((a, b) -> Double.compare(b.getAVG(), a.getAVG()));
 
         System.out.println("\n        STUDENT RANKINGS");
         System.out.println("  " + "─".repeat(50));
         System.out.printf("  %-4s  %-18s  %-6s  %-6s  %-6s%n",
-                "Rank", "Name", "Total", "GPA", "Grade");
+                "Rank", "Name", "Total", "AVG", "Grade");
         System.out.println("  " + "─".repeat(50));
 
         int    rank        = 1;
@@ -109,19 +109,19 @@ public class StudentServiceIMP implements StudentService {
 
         for (int i = 0; i < ranked.size(); i++) {
             Students s = ranked.get(i);
-            if (i == 0 || s.getGPA() != prevAvg) displayRank = rank;
+            if (i == 0 || s.getAVG() != prevAvg) displayRank = rank;
 
             System.out.printf("  %-4d  %-18s  %-6d  %-6.1f  %-6s%n",
-                    displayRank, s.name, s.getTotal(), s.getGPA(), s.getGrade());
+                    displayRank, s.name, s.getTotal(), s.getAVG(), s.getGrade());
 
-            prevAvg = s.getGPA();
+            prevAvg = s.getAVG();
             rank++;
         }
 
         System.out.println("  " + "─".repeat(50));
-        double classAvg = ranked.stream().mapToDouble(Students::getGPA).average().orElse(0);
-        double highest  = ranked.get(0).getGPA();
-        double lowest   = ranked.get(ranked.size() - 1).getGPA();
+        double classAvg = ranked.stream().mapToDouble(Students::getAVG).average().orElse(0);
+        double highest  = ranked.get(0).getAVG();
+        double lowest   = ranked.get(ranked.size() - 1).getAVG();
         System.out.printf("  Class Avg: %-6.1f  Highest: %-6.1f  Lowest: %-6.1f%n",
                 classAvg, highest, lowest);
         System.out.println("  " + "─".repeat(50));
@@ -150,12 +150,13 @@ public class StudentServiceIMP implements StudentService {
                         s.id, s.name,
                         s.mathScore, s.engligScore, s.programScore,
                         s.networkScore, s.databaseScore,
-                        s.getTotal(), s.getGPA(), s.getGrade());
+                        s.getTotal(), s.getAVG(), s.getGrade());
             }
             printFooter();
         }
     }
 
+    @Override
     public void printTranscript(){
         System.out.print("\n  Search by name or ID: ");
         String query = scanner.nextLine().trim().toLowerCase();
@@ -175,7 +176,7 @@ public class StudentServiceIMP implements StudentService {
             System.out.println("  " + "─".repeat(60));
             System.out.println("                      STUDENT TRANSCRIPT");
             System.out.println("  " + "─".repeat(60));
-            System.out.printf("  ID: %-8d  Name: %-30s GPA: %-9.1f%n", s.id, s.name, s.getGPA());
+            System.out.printf("  ID: %-8d  Name: %-30s GPA: %-9.1f%n", s.id, s.name, s.getAVG()/25);
             System.out.println("  " + "─".repeat(60));
             System.out.printf(" %-8s  %-22s  %-8s  %-6s  %-8s%n",
                     "Code", "Subject", "Credit", "Score", "GPA");
@@ -239,7 +240,7 @@ public class StudentServiceIMP implements StudentService {
     private void printHeader() {
         System.out.println("  " + "─".repeat(105));
         System.out.printf("  %-7s %-22s %-10s %-10s %-10s %-10s %-10s %-8s %-8s %-6s%n",
-                "ID", "Name", "Math", "English", "Program", "Network", "Database", "Total", "GPA", "Grade");
+                "ID", "Name", "Math", "English", "Program", "Network", "Database", "Total", "AVG", "Grade");
         System.out.println("  " + "─".repeat(105));
     }
 

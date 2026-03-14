@@ -17,17 +17,18 @@ public class GradeServiceIMP implements GradeService {
     }
 
     @Override
-    public double getGPA() {
+    public double getAVG() {
         return getTotal() / 5.0;
     }
 
     @Override
     public String getGrade() {
-        double gpa = getGPA();
-        if (gpa >= 3.5) return "A";
-        if (gpa >= 3) return "B";
-        if (gpa >= 2) return "C";
-        if (gpa >= 1) return "D";
+        double gpa = getAVG();
+        if (gpa >=90) return "A";
+        if (gpa >= 80) return "B";
+        if (gpa >= 70) return "C";
+        if (gpa >= 60) return "D";
+        if (gpa >= 50) return "E";
         return "F";
     }
 }

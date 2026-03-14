@@ -24,6 +24,6 @@ public class Students extends RankServiceIMP {
     public String toString() {
         return String.format(
                 "ID:%-3d  %-20s  Total:%-4d  Avg:%-5.1f  Grade:%s",
-                id, name, getTotal(), this.getGPA(), getGrade());
+                id, name, getTotal(), this.getAVG(), getGrade());
     }
 }
