@@ -192,11 +192,11 @@ public class StudentServiceIMP implements StudentService {
 
     // ── Seed Sample Data ──────────────────────────────────────────────────────
     public void seedData() {
-        students.add(new Students("Alice Johnson",  92, 88, 95, 87, 90));
-        students.add(new Students("Bob Martinez",   74, 80, 68, 75, 72));
-        students.add(new Students("Clara Nguyen",   85, 91, 87, 89, 84));
-        students.add(new Students("David Okafor",   60, 55, 72, 65, 58));
-        students.add(new Students("Eva Kowalski",   97, 94, 99, 96, 98));
+        students.add(new Students("An Srey Pov",  92, 88, 95, 87, 90));
+        students.add(new Students("Kuong Kimlang",   74, 80, 68, 75, 72));
+        students.add(new Students("Vann Vireakroth",   85, 91, 87, 89, 84));
+        students.add(new Students("Horm rathmuny",   60, 55, 72, 65, 58));
+
     }
 
     // ── Helpers ───────────────────────────────────────────────────────────────
